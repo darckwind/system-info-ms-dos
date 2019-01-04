@@ -1,0 +1,18 @@
+@echo off
+echo "no ingrece espacios y en caso de ser necesario remplacelos por un guion (-)"
+set /p lab="Nombre del Laboratorio: "
+set /p tec="Identificacion Tecnico: "
+MD %lab%
+timeout /t 3
+set infopcs = dir %lab% /b infopc*.txt /s | find "" /v /c
+echo ---------------------------------System INFO-------------------------------------------------------------- > %lab%/infopc_%lab%_%tec%.txt
+systeminfo >> %lab%/infopc_%lab%_%tec%.txt
+echo ---------------------------------CPU INFO-------------------------------------------------------------- >> %lab%/infopc_%lab%_%tec%.txt
+wmic CPU get Name >> %lab%/infopc_%lab%_%tec%.txt
+@ECHO. >> %lab%/infopc_%lab%_%tec%.txt
+echo ---------------------------------SpeedTest-------------------------------------------------------------- >> %lab%/infopc_%lab%_%tec%.txt
+speedtest-32-v1.0.4-b.exe  -s 16089 -p >> %lab%/infopc_%lab%_%tec%.txt
+@ECHO. >> %lab%/infopc_%lab%_%tec%.txt
+echo ---------------------------------Installed Programs-------------------------------------------------------------- >> %lab%/programs_installed_%lab%_%tec%.txt
+wmic product get name, version /format:csv > %lab%/programs_installed_%lab%_%tec%.txt
+exit
